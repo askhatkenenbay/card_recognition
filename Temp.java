@@ -37,10 +37,10 @@ public class Temp {
                 image = ImageIO.read(file);
                 String res = getCards(image);
                 if (res.contains("_")) {
-                    System.out.println("MISS: " + file.getName() + ":" + res);
+                    System.out.println("MISS:" + file.getName() + " - " + res);
                     missCount++;
                 } else {
-                    System.out.println(file.getName() + ":" + res);
+                    System.out.println(file.getName() + " - " + res);
                 }
             }
         } catch (IOException e) {
