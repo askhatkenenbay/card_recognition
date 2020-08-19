@@ -46,7 +46,7 @@ public class Temp {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        System.out.println("Success:" + ((files.length - missCount) / files.length) * 100);
+        System.out.println("Success:" + ((files.length - missCount) / files.length) * 100  + "%");
         System.out.println("Miss_Count:" + missCount);
     }
 
