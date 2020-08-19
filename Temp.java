@@ -8,18 +8,28 @@ import java.util.List;
 
 public class Temp {
     public static String FOLDER_NAME = "/home/askhat/java_test_task/imgs/";
-    public static int WIDTH = 360;
-    public static int HEIGHT = 100;
-    public static Color BLACK = new Color(35, 35, 38);
-    public static Color BLACK_S = new Color(16, 16, 18);
-    public static Color RED = new Color(205, 73, 73);
-    public static Color RED_S = new Color(96, 34, 34);
-    public static Color WHITE = new Color(255, 255, 255);
-    public static Color WHITE_S = new Color(120, 120, 120);
+    public static final int WIDTH = 360;
+    public static final int HEIGHT = 100;
+    public static final Color BLACK = new Color(35, 35, 38);
+    public static final Color BLACK_S = new Color(16, 16, 18);
+    public static final Color RED = new Color(205, 73, 73);
+    public static final Color RED_S = new Color(96, 34, 34);
+    public static final Color WHITE = new Color(255, 255, 255);
+    public static final Color WHITE_S = new Color(120, 120, 120);
 
     public static void main(String[] args) {
+        if(args.length == 1){
+            FOLDER_NAME = args[0];
+        }else{
+            System.out.println("Issue with argument count");
+            return;
+        }
         File folder = new File(FOLDER_NAME);
         File[] files = folder.listFiles();
+        if(files == null){
+            System.out.println("No files in given folder");
+            return;
+        }
         BufferedImage image;
         int missCount = 0;
         try {
@@ -40,7 +50,7 @@ public class Temp {
         System.out.println("Miss_Count:" + missCount);
     }
 
-    public static String getCards(BufferedImage image) {
+    private static String getCards(BufferedImage image) {
         StringBuilder res = new StringBuilder();
         BufferedImage cut = image.getSubimage(140, 580, WIDTH, HEIGHT);
         List<BufferedImage> cards = divide(cut);
@@ -54,7 +64,7 @@ public class Temp {
         return res.toString();
     }
 
-    public static List<BufferedImage> divide(BufferedImage image) {
+    private static List<BufferedImage> divide(BufferedImage image) {
         List<BufferedImage> list = new ArrayList<>();
         for (int i = 0; i < 5; i++) {
             BufferedImage cut = image.getSubimage(i * 72, 0, 72, 100);
@@ -63,7 +73,7 @@ public class Temp {
         return list;
     }
 
-    public static String getCardNum(BufferedImage image) {
+    private static String getCardNum(BufferedImage image) {
         image = image.getSubimage(5, 10, 30, 25);
         if (isTwo(image)) {
             return "2";
@@ -107,13 +117,13 @@ public class Temp {
         return "_";
     }
 
-    public static boolean isWhite(BufferedImage image, int x, int y) {
+    private static boolean isWhite(BufferedImage image, int x, int y) {
         int pixel = image.getRGB(x, y);
         Color color = new Color(pixel, true);
         return color.equals(WHITE) || color.equals(WHITE_S);
     }
 
-    public static boolean isTwo(BufferedImage image) {
+    private static boolean isTwo(BufferedImage image) {
         for (int i = 11, j = 4; i <= 19; i++) {
             if (isWhite(image, i, j)) {
                 return false;
@@ -132,7 +142,7 @@ public class Temp {
         return true;
     }
 
-    public static boolean isThree(BufferedImage image) {
+    private static boolean isThree(BufferedImage image) {
         for (int i = 10, j = 4; i <= 20; i++) {
             if (isWhite(image, i, j)) {
                 return false;
@@ -151,7 +161,7 @@ public class Temp {
         return true;
     }
 
-    public static boolean isFour(BufferedImage image) {
+    private static boolean isFour(BufferedImage image) {
         for (int i = 20, j = 5; j <= 18; j++) {
             if (isWhite(image, i, j)) {
                 return false;
@@ -165,7 +175,7 @@ public class Temp {
         return true;
     }
 
-    public static boolean isFive(BufferedImage image) {
+    private static boolean isFive(BufferedImage image) {
         int x = 10;
         int y = 4;
         for (int i = 10, j = 4, k = 0; k < 9; i++, j++, k++) {
@@ -186,7 +196,7 @@ public class Temp {
         return true;
     }
 
-    public static boolean isSix(BufferedImage image) {
+    private static boolean isSix(BufferedImage image) {
         for (int i = 17, j = 9; i <= 28; i++) {
             if (!isWhite(image, i, j)) {
                 return false;
@@ -195,7 +205,7 @@ public class Temp {
         return true;
     }
 
-    public static boolean isSeven(BufferedImage image) {
+    private static boolean isSeven(BufferedImage image) {
         for (int i = 10, j = 4; i <= 21; i++) {
             if (isWhite(image, i, j)) {
                 return false;
@@ -204,11 +214,11 @@ public class Temp {
         return !isWhite(image, 19, 8) && !isWhite(image, 14, 19);
     }
 
-    public static boolean isEight(BufferedImage image) {
+    private static boolean isEight(BufferedImage image) {
         return !isWhite(image, 15, 4) && !isWhite(image, 20, 8) && !isWhite(image, 15, 13) && !isWhite(image, 21, 18) && !isWhite(image, 15, 23) && !isWhite(image, 8, 17) && !isWhite(image, 9, 7) ;
     }
 
-    public static boolean isNine(BufferedImage image) {
+    private static boolean isNine(BufferedImage image) {
         for (int i = 2, j = 17; i <= 11; i++) {
             if (!isWhite(image, i, j)) {
                 return false;
@@ -217,7 +227,7 @@ public class Temp {
         return true;
     }
 
-    public static boolean isTen(BufferedImage image) {
+    private static boolean isTen(BufferedImage image) {
         for (int i = 9, j = 3; j <= 21; j++) {
             if (isWhite(image, i, j)) {
                 return false;
@@ -231,7 +241,7 @@ public class Temp {
         return true;
     }
 
-    public static boolean isJack(BufferedImage image) {
+    private static boolean isJack(BufferedImage image) {
         for (int i = 8, j = 4, k = 19; j <= 17; j++) {
             if (!isWhite(image, i, j)) {
                 return false;
@@ -243,7 +253,7 @@ public class Temp {
         return true;
     }
 
-    public static boolean isQueen(BufferedImage image) {
+    private static boolean isQueen(BufferedImage image) {
         for (int i = 28, j = 11; j < 15; j++) {
             if (isWhite(image, i, j)) {
                 return false;
@@ -257,7 +267,7 @@ public class Temp {
         return true;
     }
 
-    public static boolean isKing(BufferedImage image) {
+    private static boolean isKing(BufferedImage image) {
         for (int i = 10, j = 4; j <= 22; j++) {
             if (isWhite(image, i, j)) {
                 return false;
@@ -271,7 +281,7 @@ public class Temp {
         return true;
     }
 
-    public static boolean isAce(BufferedImage image) {
+    private static boolean isAce(BufferedImage image) {
         for (int i = 8, j = 18; i <= 18; i++) {
             if (isWhite(image, i, j)) {
                 return false;
@@ -280,7 +290,7 @@ public class Temp {
         return true;
     }
 
-    public static String getCardType(BufferedImage image) {
+    private static String getCardType(BufferedImage image) {
         int pixel = image.getRGB(45, 75);
         Color color = new Color(pixel, true);
         if (color.equals(BLACK) || color.equals(BLACK_S)) {
